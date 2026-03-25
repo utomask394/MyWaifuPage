@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
-  <title>Google imágenes</title>
+  <title>MyWaifuPage</title>
   <style>
     :root {
       --bg: #ffffff;
@@ -157,7 +157,7 @@
 </head>
 <body>
   <main class="page">
-    <section class="center" aria-label="Replica de Google con logo intercambiable">
+    <section class="center">
       <div class="logo-wrap">
         <img id="logoGoogle" class="logo-img" alt="Google" />
       </div>
@@ -174,9 +174,7 @@
   </main>
 
   <script>
-    // Pon aquí los nombres exactos de tus archivos, con extensión.
-    // Ejemplo: ["1.png", "2.png", "3.png"]
-    const imagenes = [
+    const waifus = [
   "Bunny-IRL.webp",
   "Bunny.webp",
   "Cerberus.webp",
@@ -206,20 +204,20 @@
   "Zone-tan.webp"
 ];
 
-    const rutaBase = "IMG/";
+    const rutaBase = "Waifus/";
     const logo = document.getElementById("logoGoogle");
     const searchForm = document.getElementById("searchForm");
     const searchInput = document.getElementById("searchInput");
     let indiceActual = 0;
 
     function cargarLogo(indice) {
-      if (!imagenes.length) return;
-      logo.src = rutaBase + imagenes[indice];
+      if (!waifus.length) return;
+      logo.src = rutaBase + waifus[indice];
     }
 
     function siguienteLogo() {
-      if (!imagenes.length) return;
-      indiceActual = (indiceActual + 1) % imagenes.length;
+      if (!waifus.length) return;
+      indiceActual = (indiceActual + 1) % waifus.length;
       cargarLogo(indiceActual);
     }
 
@@ -262,7 +260,7 @@
 
     cargarLogo(indiceActual);
 
-    imagenes.forEach(nombre => {
+    waifus.forEach(nombre => {
       const img = new Image();
       img.src = rutaBase + nombre;
     });
