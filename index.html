@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
+  <title>Google imágenes</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --border: #dfe1e5;
+      --shadow: 0 1px 6px rgba(32, 33, 36, 0.18);
+      --search-height: 44px;
+      --search-width-desktop: 584px;
+      --search-width-mobile: 92vw;
+      --logo-width-desktop: 272px;
+      --logo-width-mobile: 62vw;
+      --app-height: 100vh;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      background: var(--bg);
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+      overscroll-behavior: none;
+    }
+
+    body {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .page {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: var(--app-height);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 16px;
+      overflow: hidden;
+    }
+
+    .center {
+      width: 100%;
+      max-width: calc(100vw - 32px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      transform: translateY(0);
+    }
+
+    .logo-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      margin: 0;
+      padding: 0;
+      line-height: 0;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+    }
+
+    .logo-img {
+      display: block;
+      width: min(var(--logo-width-desktop), calc(100vw - 32px));
+      max-width: calc(100vw - 32px);
+      max-height: 28vh;
+      height: auto;
+      object-fit: contain;
+      user-select: none;
+      -webkit-user-drag: none;
+      cursor: pointer;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+    }
+
+    .logo-img:focus {
+      outline: none;
+    }
+
+    .search {
+      width: min(var(--search-width-desktop), calc(100vw - 32px));
+      max-width: calc(100vw - 32px);
+      height: var(--search-height);
+      margin-top: 0;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      padding: 0 18px;
+      flex-shrink: 0;
+    }
+
+    .search:focus-within {
+      border-color: transparent;
+      box-shadow: var(--shadow);
+    }
+
+    .search input {
+      width: 100%;
+      min-width: 0;
+      border: 0;
+      outline: none;
+      background: transparent;
+      font-size: 16px;
+      color: #202124;
+    }
+
+    .search input::placeholder {
+      color: #80868b;
+    }
+
+    @media (max-width: 640px) {
+      .logo-img {
+        width: min(var(--logo-width-mobile), calc(100vw - 32px));
+      }
+
+      .search {
+        width: min(var(--search-width-mobile), calc(100vw - 32px));
+      }
+    }
+
+    @media (max-width: 380px) {
+      .page {
+        padding: 10px 12px;
+      }
+
+      .center {
+        max-width: calc(100vw - 24px);
+      }
+
+      .logo-img,
+      .search {
+        max-width: calc(100vw - 24px);
+      }
+
+      .search {
+        padding: 0 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="center" aria-label="Replica de Google con logo intercambiable">
+      <div class="logo-wrap">
+        <img id="logoGoogle" class="logo-img" alt="Google" />
+      </div>
+
+      <form id="searchForm" class="search" autocomplete="off">
+        <input
+          id="searchInput"
+          type="text"
+          placeholder="Buscar"
+          aria-label="Buscar"
+        />
+      </form>
+    </section>
+  </main>
+
+  <script>
+    // Pon aquí los nombres exactos de tus archivos, con extensión.
+    // Ejemplo: ["1.png", "2.png", "3.png"]
+    const imagenes = [
+  "Bunny-IRL.webp",
+  "Bunny.webp",
+  "Cerberus.webp",
+  "Cerberus1.webp",
+  "Cerberus2.webp",
+  "Cerberus3.webp",
+  "Edge-chan.webp",
+  "Eth-sama.webp",
+  "Golden-Onyx.webp",
+  "Google-sama.webp",
+  "IRONMOUSE.webp",
+  "Lich.webp",
+  "LightB.webp",
+  "Lily.webp",
+  "Lumi.webp",
+  "Melody.webp",
+  "Merry-Dawg.webp",
+  "Ollie.webp",
+  "Otachan.webp",
+  "Peach.webp",
+  "Persephone.webp",
+  "PS4.webp",
+  "Sawawse.webp",
+  "Uzaki-chan.webp",
+  "VeiBae.webp",
+  "XBX-chan.webp",
+  "Zone-tan.webp"
+];
+
+    const rutaBase = "IMG/";
+    const logo = document.getElementById("logoGoogle");
+    const searchForm = document.getElementById("searchForm");
+    const searchInput = document.getElementById("searchInput");
+    let indiceActual = 0;
+
+    function cargarLogo(indice) {
+      if (!imagenes.length) return;
+      logo.src = rutaBase + imagenes[indice];
+    }
+
+    function siguienteLogo() {
+      if (!imagenes.length) return;
+      indiceActual = (indiceActual + 1) % imagenes.length;
+      cargarLogo(indiceActual);
+    }
+
+    function buscarEnGoogle() {
+      const texto = searchInput.value.trim();
+      if (!texto) return;
+
+      const url = "https://www.google.com/search?q=" + encodeURIComponent(texto);
+      window.location.href = url;
+    }
+
+    function ajustarAlturaVisible() {
+      const vv = window.visualViewport;
+      const altoVisible = vv ? vv.height : window.innerHeight;
+      document.documentElement.style.setProperty("--app-height", `${Math.round(altoVisible)}px`);
+    }
+
+    logo.addEventListener("click", siguienteLogo);
+
+    searchForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      buscarEnGoogle();
+    });
+
+    searchInput.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" && document.activeElement === searchInput) {
+        e.preventDefault();
+        buscarEnGoogle();
+      }
+    });
+
+    ajustarAlturaVisible();
+    window.addEventListener("resize", ajustarAlturaVisible);
+    window.addEventListener("orientationchange", ajustarAlturaVisible);
+
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener("resize", ajustarAlturaVisible);
+      window.visualViewport.addEventListener("scroll", ajustarAlturaVisible);
+    }
+
+    cargarLogo(indiceActual);
+
+    imagenes.forEach(nombre => {
+      const img = new Image();
+      img.src = rutaBase + nombre;
+    });
+  </script>
+</body>
+</html>
